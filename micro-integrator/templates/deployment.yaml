@@ -166,3 +166,13 @@ spec:
           secret:
             secretName: logstash-elasticsearch-creds
       {{- end }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - {{ .Release.Name }}
+            topologyKey: "kubernetes.io/hostname"
